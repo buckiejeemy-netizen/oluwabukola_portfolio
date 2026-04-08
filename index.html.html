@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adejumobi Oluwabukola Moyo — Health Project Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0e1b2e;
+    --navy-mid: #162438;
+    --slate: #1e3050;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --white: #ffffff;
+    --text-muted: #8a9bb0;
+    --border: rgba(201,168,76,0.2);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); min-height: 100vh; overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(14,27,46,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--gold); letter-spacing: 0.04em; cursor: pointer; }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.25s; cursor: pointer; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  .page { display: none; padding-top: 90px; min-height: 100vh; }
+  .page.active { display: block; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 5rem 0; }
+  .section-label { font-size: 0.73rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+  h1 { font-size: clamp(2.8rem, 5.5vw, 5rem); font-weight: 300; line-height: 1.05; }
+  h2 { font-size: clamp(1.9rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.15; }
+  h3 { font-size: 1.4rem; font-weight: 500; }
+  p { line-height: 1.78; color: var(--text-muted); font-size: 0.93rem; }
+  .gold { color: var(--gold); }
+  .divider { width: 60px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin: 1.5rem 0; }
+
+  .btn { display: inline-block; padding: 0.85rem 2.2rem; border: 1px solid var(--gold); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; cursor: pointer; background: transparent; transition: all 0.3s ease; }
+  .btn:hover { background: var(--gold); color: var(--navy); }
+  .btn-solid { background: var(--gold); color: var(--navy); }
+  .btn-solid:hover { background: var(--gold-light); }
+
+  .card { background: var(--navy-mid); border: 1px solid var(--border); padding: 2.5rem; transition: border-color 0.3s, transform 0.3s; }
+  .card:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+
+  @media(max-width:768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.68rem; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* ── HOME ── */
+  .hero { min-height: calc(100vh - 90px); display: flex; align-items: center; position: relative; padding: 4rem 0; }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%); pointer-events: none; }
+  .hero-content { max-width: 780px; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 0.7rem; font-size: 0.73rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+  .hero-tag::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+  .hero h1 { margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: normal; color: var(--gold); border-bottom: 2px solid var(--gold); }
+  .hero-summary { font-size: 1rem; line-height: 1.82; color: #a8bcce; max-width: 650px; margin-bottom: 2.5rem; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 600; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 0.4rem; }
+
+  .strengths { background: var(--navy-mid); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3.5rem 0; }
+  .strengths-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; }
+  @media(max-width:768px) { .strengths-grid { grid-template-columns: 1fr 1fr; } }
+  .strength-item { text-align: center; }
+  .strength-icon { width: 52px; height: 52px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.3rem; }
+  .strength-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 500; color: var(--white); margin-bottom: 0.5rem; }
+  .strength-item p { font-size: 0.82rem; }
+
+  /* ── ABOUT ── */
+  .about-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; }
+  @media(max-width:768px) { .about-layout { grid-template-columns: 1fr; gap: 3rem; } }
+  .about-photo { width: 100%; aspect-ratio: 3/4; background: var(--slate); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); margin-bottom: 2rem; }
+  .photo-placeholder { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--gold); opacity: 0.35; letter-spacing: 0.05em; }
+  .about-meta { display: flex; flex-direction: column; gap: 0.8rem; }
+  .meta-item { display: flex; gap: 0.8rem; align-items: flex-start; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+  .meta-label { color: var(--gold); min-width: 90px; font-weight: 500; }
+  .meta-val { color: var(--text-muted); }
+  .about-content p { margin-bottom: 1.2rem; }
+  .expertise-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .tag { padding: 0.4rem 1rem; border: 1px solid var(--border); font-size: 0.76rem; letter-spacing: 0.08em; color: var(--gold); transition: background 0.25s; }
+  .tag:hover { background: var(--border); }
+  .timeline { margin-top: 2.5rem; }
+  .timeline-item { display: grid; grid-template-columns: 130px 1fr; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+  .tl-year { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold); }
+  .tl-org { font-size: 0.76rem; color: var(--text-muted); margin-top: 0.2rem; }
+  .tl-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem; }
+  .tl-desc { font-size: 0.84rem; }
+
+  /* ── PROJECTS ── */
+  .project-card { background: var(--navy-mid); border: 1px solid var(--border); padding: 2.5rem; transition: border-color 0.3s, transform 0.3s; margin-bottom: 1.5rem; }
+  .project-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .project-badge { padding: 0.3rem 0.9rem; background: rgba(201,168,76,0.1); border: 1px solid var(--gold); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .project-section { margin-top: 1.4rem; }
+  .project-section-title { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .project-results { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.2rem; }
+  .result-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; background: rgba(201,168,76,0.07); border-left: 2px solid var(--gold); font-size: 0.82rem; color: var(--cream); }
+
+  /* ── SKILLS ── */
+  .skill-category { margin-bottom: 3rem; }
+  .skill-category h3 { color: var(--white); margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+  .skill-bars { display: flex; flex-direction: column; gap: 1rem; }
+  .skill-bar-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+  .skill-name { font-size: 0.87rem; color: var(--cream); }
+  .skill-pct { font-size: 0.82rem; color: var(--gold); }
+  .bar-track { width: 100%; height: 4px; background: rgba(255,255,255,0.08); }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+  .skills-soft { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1rem; }
+  @media(max-width:768px) { .skills-soft { grid-template-columns: 1fr 1fr; } }
+  .soft-chip { padding: 1.2rem; border: 1px solid var(--border); text-align: center; font-size: 0.83rem; color: var(--text-muted); transition: border-color 0.25s, color 0.25s; }
+  .soft-chip:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── CERTS ── */
+  .cert-card { background: var(--navy-mid); border: 1px solid var(--border); padding: 2.2rem; display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center; transition: border-color 0.3s; margin-bottom: 1.2rem; }
+  .cert-card:hover { border-color: var(--gold); }
+  .cert-badge { width: 78px; height: 78px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 700; color: var(--gold); text-align: center; line-height: 1.2; flex-shrink: 0; }
+  .cert-body h3 { color: var(--white); margin-bottom: 0.35rem; font-size: 1.2rem; }
+  .cert-issuer { font-size: 0.78rem; color: var(--gold); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .cert-body p { font-size: 0.85rem; }
+  .cert-year { margin-top: 0.8rem; font-size: 0.82rem; color: var(--text-muted); }
+
+  /* ── CONTACT ── */
+  .contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; }
+  @media(max-width:768px) { .contact-layout { grid-template-columns: 1fr; gap: 3rem; } }
+  .contact-detail { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); font-size: 0.87rem; }
+  .contact-icon { width: 38px; height: 38px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; color: var(--gold); }
+  .contact-detail-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 0.25rem; }
+  .contact-detail-val { color: var(--cream); }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-label { font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); }
+  .form-input, .form-textarea { background: var(--navy-mid); border: 1px solid var(--border); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; padding: 0.9rem 1.2rem; outline: none; transition: border-color 0.25s; resize: vertical; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-textarea { min-height: 130px; }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: center; font-size: 0.77rem; color: var(--text-muted); letter-spacing: 0.08em; }
+  footer span { color: var(--gold); }
+
+  .pub-card { background: var(--navy-mid); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 1.8rem 2rem; margin-bottom: 1rem; }
+  .pub-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.5rem; }
+  .pub-card a { color: var(--gold); font-size: 0.82rem; text-decoration: none; }
+  .pub-card a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Oluwabukola Moyo, PMP</div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('projects')" id="nav-projects">Projects</a></li>
+    <li><a onclick="showPage('skills')" id="nav-skills">Skills</a></li>
+    <li><a onclick="showPage('certifications')" id="nav-certifications">Certifications</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<div id="home" class="page active">
+  <section class="section">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-content">
+          <div class="hero-tag">Health Project Manager · Calgary, Canada</div>
+          <h1>
+            Strengthening <em>health systems</em><br>
+            through evidence, policy<br>
+            &amp; purposeful leadership
+          </h1>
+          <p class="hero-summary">
+            Public health professional with 12+ years of national and international experience in primary health care systems strengthening, program management, M&amp;E, and disease surveillance. Former WHO Principal Investigator with published research adopted into global governance frameworks. Now driving health equity and program excellence in Canada.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-solid" onclick="showPage('projects')">View My Work</button>
+            <button class="btn" onclick="showPage('contact')">Get In Touch</button>
+          </div>
+          <div class="hero-stats">
+            <div><div class="stat-num">12+</div><div class="stat-label">Years of Experience</div></div>
+            <div><div class="stat-num">WHO</div><div class="stat-label">Principal Investigator</div></div>
+            <div><div class="stat-num">3</div><div class="stat-label">Global Organisations</div></div>
+            <div><div class="stat-num">PMP</div><div class="stat-label">Certified 2025</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strengths">
+    <div class="container">
+      <div class="strengths-grid">
+        <div class="strength-item">
+          <div class="strength-icon">🏥</div>
+          <h4>Health Systems Strengthening</h4>
+          <p>Designing and implementing primary health care programs aligned with EPHF frameworks across low-, middle- and high-income settings.</p>
+        </div>
+        <div class="strength-item">
+          <div class="strength-icon">📊</div>
+          <h4>M&amp;E &amp; Surveillance</h4>
+          <p>Building robust monitoring systems using REDCap, SORMAS, Stata and SPSS to generate actionable, policy-ready evidence.</p>
+        </div>
+        <div class="strength-item">
+          <div class="strength-icon">🤝</div>
+          <h4>Stakeholder Engagement</h4>
+          <p>Facilitating high-level consultations with Ministries of Health, UN agencies, NGOs, and frontline communities.</p>
+        </div>
+        <div class="strength-item">
+          <div class="strength-icon">📋</div>
+          <h4>Policy &amp; Technical Writing</h4>
+          <p>Authoring WHO-published reports, briefing notes, and implementation documents adopted into global governance frameworks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div id="about" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="about-layout">
+        <div class="about-sidebar">
+          <div class="about-photo">
+            <div class="photo-placeholder">AOM</div>
+          </div>
+          <div class="about-meta">
+            <div class="meta-item"><span class="meta-label">Name</span><span class="meta-val">Adejumobi Oluwabukola Moyo</span></div>
+            <div class="meta-item"><span class="meta-label">Location</span><span class="meta-val">Calgary, Alberta, Canada</span></div>
+            <div class="meta-item"><span class="meta-label">Email</span><span class="meta-val">adejumobi.oluwabukola@gmail.com</span></div>
+            <div class="meta-item"><span class="meta-label">Phone</span><span class="meta-val">+1 587 284 5089</span></div>
+            <div class="meta-item"><span class="meta-label">Sectors</span><span class="meta-val">Global Health · Public Health · Nonprofit · Government</span></div>
+            <div class="meta-item"><span class="meta-label">Languages</span><span class="meta-val">English (Fluent) · French (Basic) · Yoruba</span></div>
+            <div class="meta-item"><span class="meta-label">Status</span><span class="meta-val">Eligible to work in Canada · Open to relocation</span></div>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <div class="section-label">About Me</div>
+          <h2>A global health leader anchored in <span class="gold">evidence, equity &amp; impact</span></h2>
+          <div class="divider"></div>
+
+          <p>I am a public health professional with over 12 years of combined national and international experience spanning primary health care policy, program management, disease surveillance, health financing, and monitoring and evaluation. My career has taken me from Ministries of Health in Nigeria to WHO headquarters in Geneva — and now to Canada, where I continue to contribute to health equity and program excellence.</p>
+
+          <p>As a WHO Principal Investigator, I led multi-country research on acute care capacity and oxygen system readiness in low- and middle-income countries during the COVID-19 pandemic. My findings were published by WHO and adopted into global governance frameworks — a body of work I carry with deep professional pride.</p>
+
+          <p>I hold a Master of Public Health in Health Policy and Management, a PMP certification, and a Diploma in Human and Community Support Social Services from Cambrooks College in Calgary. I bring a systems-thinking approach, a strong command of data tools, and an unwavering commitment to improving health outcomes for vulnerable populations.</p>
+
+          <div class="expertise-tags">
+            <span class="tag">Primary Health Care</span>
+            <span class="tag">Health Policy Analysis</span>
+            <span class="tag">M&amp;E System Design</span>
+            <span class="tag">Disease Surveillance</span>
+            <span class="tag">Health Financing</span>
+            <span class="tag">EPHF Framework</span>
+            <span class="tag">Immunization Programs</span>
+            <span class="tag">Program Management</span>
+            <span class="tag">Capacity Building</span>
+            <span class="tag">Technical Report Writing</span>
+            <span class="tag">Claims Data Analysis</span>
+            <span class="tag">Stakeholder Engagement</span>
+          </div>
+
+          <div class="timeline">
+            <div class="section-label" style="margin-top:2.5rem;">Career Timeline</div>
+
+            <div class="timeline-item">
+              <div><div class="tl-year">2023–Present</div><div class="tl-org">Calgary Dream Centre</div></div>
+              <div>
+                <div class="tl-title">Case Manager / Program &amp; Policy Advisor</div>
+                <p class="tl-desc">Delivering coordinated case management within a provincially connected addiction and recovery program. Advising on policy, preparing technical reports and briefing notes for senior leadership, and building cross-sector partnerships with clinics, NGOs, and government partners.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div><div class="tl-year">2020–2023</div><div class="tl-org">World Health Organization</div></div>
+              <div>
+                <div class="tl-title">Principal Investigator</div>
+                <p class="tl-desc">Led WHO-funded multi-country research on acute care and oxygen system readiness. Facilitated high-level Ministry of Health consultations, authored published policy reports adopted into WHO governance frameworks (WHO O2CoV2 study).</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div><div class="tl-year">2020–2023</div><div class="tl-org">Ogun State Ministry of Health</div></div>
+              <div>
+                <div class="tl-title">Epidemiologist / Policy Advisor</div>
+                <p class="tl-desc">Led disease surveillance and public health response programs. Coordinated COVID-19 Rapid Response Team across surveillance and case management pillars. Managed multi-stakeholder initiatives aligned with EPHF #2 and #5.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div><div class="tl-year">2020–2021</div><div class="tl-org">UNICEF Nigeria</div></div>
+              <div>
+                <div class="tl-title">Program Manager</div>
+                <p class="tl-desc">Supported national training initiatives for healthcare workers on COVID-19 clinical management (EPHF #8). Coordinated program activities, reporting, and stakeholder engagement in emergency health response.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div><div class="tl-year">2016–2020</div><div class="tl-org">Ogun State Health Insurance Agency</div></div>
+              <div>
+                <div class="tl-title">Claims Analyst / M&amp;E Officer</div>
+                <p class="tl-desc">Led M&amp;E for publicly funded health insurance programs. Analysed utilisation trends, tracked fund performance, and contributed data-driven reporting to strengthen access to health services.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ PROJECTS ═══ -->
+<div id="projects" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Featured Work</div>
+      <h2>Programs that <span class="gold">changed outcomes</span></h2>
+      <div class="divider"></div>
+      <p style="max-width:620px;margin-bottom:3rem;">A selection of key initiatives across global health research, disease surveillance, immunization, health financing, and community program management.</p>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-badge">WHO Global Research</div>
+            <h3 style="margin-top:0.8rem;color:var(--white);">WHO O2CoV2 Study — Oxygen &amp; Acute Care Readiness</h3>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text-muted);">2020–2023</div>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Objective</div>
+          <p>Assess oxygen requirements and acute care readiness in low- and middle-income countries during the COVID-19 pandemic to inform WHO global health policy and emergency preparedness (EPHF #2).</p>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Actions Taken</div>
+          <p>Led multi-country research design and data collection. Conducted system-level infrastructure analysis. Facilitated high-level consultations with Ministry of Health officials and clinicians. Authored implementation reports submitted to WHO governance and steering committees.</p>
+        </div>
+        <div class="project-results">
+          <div class="result-chip">✓ Published on WHO global platform</div>
+          <div class="result-chip">✓ Adopted into WHO governance frameworks</div>
+          <div class="result-chip">✓ Multi-country LMIC scope</div>
+          <div class="result-chip">✓ Shaped global emergency preparedness policy</div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-badge">Disease Surveillance</div>
+            <h3 style="margin-top:0.8rem;color:var(--white);">COVID-19 State Rapid Response — Ogun State, Nigeria</h3>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text-muted);">2020–2022</div>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Objective</div>
+          <p>Coordinate state-wide COVID-19 surveillance, active case search, contact tracing, and data management across all pillars of the Ogun State public health response.</p>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Actions Taken</div>
+          <p>Led Rapid Response Team coordination across surveillance and case management. Implemented signal monitoring and timely data upload on SORMAS and WHO Open Clinical Platform. Managed cross-functional teams including federal agencies and international partners.</p>
+        </div>
+        <div class="project-results">
+          <div class="result-chip">✓ State-wide coordination achieved</div>
+          <div class="result-chip">✓ Real-time SORMAS data management</div>
+          <div class="result-chip">✓ Federal &amp; international alignment</div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-badge">Immunization Programs</div>
+            <h3 style="margin-top:0.8rem;color:var(--white);">WHO Supplemental Immunization &amp; LQAS Surveys — Nigeria</h3>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text-muted);">2017–2019</div>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Objective</div>
+          <p>Assess immunization coverage quality, identify service gaps, and generate real-time data to guide programme improvement across high-risk LGAs in Ogun State.</p>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Actions Taken</div>
+          <p>Served as Independent Monitor and Validator for WHO SIA rounds. Applied ISS checklists for facility-level risk identification. Conducted LQAS surveys on RI and RMNCH coverage. Enriched WHO Enhanced Independent Monitoring SOPs and piloted new protocols presented to national stakeholders. Supported Peer Review for Polio Eradication Initiative documentation.</p>
+        </div>
+        <div class="project-results">
+          <div class="result-chip">✓ Multi-LGA coverage assessment</div>
+          <div class="result-chip">✓ New SOPs piloted &amp; scaled nationally</div>
+          <div class="result-chip">✓ Under-5 mortality barriers identified</div>
+          <div class="result-chip">✓ PEI documentation strengthened</div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-badge">Health Financing / M&amp;E</div>
+            <h3 style="margin-top:0.8rem;color:var(--white);">Health Insurance Baseline Assessment &amp; M&amp;E Program</h3>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text-muted);">2016–2020</div>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Objective</div>
+          <p>Lead M&amp;E for publicly funded health insurance programs and design a formal sector health insurance scheme through evidence-based research and stakeholder consultation.</p>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Actions Taken</div>
+          <p>Tracked fund utilisation and claims performance indicators. Analysed utilisation trends to inform health financing decisions. Led research, data collection, and stakeholder consultations for the formal sector insurance baseline assessment. Delivered policy recommendations on coverage and implementation options.</p>
+        </div>
+        <div class="project-results">
+          <div class="result-chip">✓ State-level scheme designed</div>
+          <div class="result-chip">✓ Claims data system managed</div>
+          <div class="result-chip">✓ Policy brief delivered to leadership</div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-badge">Community Programs</div>
+            <h3 style="margin-top:0.8rem;color:var(--white);">Addiction Recovery Program Coordination — Calgary</h3>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text-muted);">2023–Present</div>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Objective</div>
+          <p>Deliver integrated, person-centred case management within a provincially connected addiction and recovery program while contributing system-level insights to program improvement.</p>
+        </div>
+        <div class="project-section">
+          <div class="project-section-title">Actions Taken</div>
+          <p>Coordinate care for clients across addiction and recovery services. Identify access barriers and service gaps to inform program planning. Review and support policy development for recovery and supportive living programs. Prepare technical reports and briefing notes for senior leadership.</p>
+        </div>
+        <div class="project-results">
+          <div class="result-chip">✓ Cross-sector partnerships built</div>
+          <div class="result-chip">✓ Evidence-based recommendations delivered</div>
+          <div class="result-chip">✓ Regulatory-aligned policy reviewed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ SKILLS ═══ -->
+<div id="skills" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Capabilities</div>
+      <h2>Skills forged through <span class="gold">global health impact</span></h2>
+      <div class="divider"></div>
+
+      <div class="grid-2" style="margin-top:3rem;">
+        <div class="skill-category">
+          <h3>Program &amp; Project Management</h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Program Planning &amp; Coordination</span><span class="skill-pct">96%</span></div><div class="bar-track"><div class="bar-fill" style="width:96%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Health Systems Strengthening</span><span class="skill-pct">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Risk &amp; Issue Management</span><span class="skill-pct">88%</span></div><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Budget &amp; Resource Management</span><span class="skill-pct">85%</span></div><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>M&amp;E &amp; Data Analysis</h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Stata (Regular Use)</span><span class="skill-pct">92%</span></div><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">REDCap / SORMAS / EPI-INFO</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">SPSS</span><span class="skill-pct">88%</span></div><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">KPI Framework &amp; Logic Models</span><span class="skill-pct">93%</span></div><div class="bar-track"><div class="bar-fill" style="width:93%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Policy &amp; Technical Writing</h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Policy Briefs &amp; Technical Reports</span><span class="skill-pct">97%</span></div><div class="bar-track"><div class="bar-fill" style="width:97%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Briefing Notes for Senior Leadership</span><span class="skill-pct">94%</span></div><div class="bar-track"><div class="bar-fill" style="width:94%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">WHO/UNICEF Reporting Standards</span><span class="skill-pct">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Research &amp; Publication</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Stakeholder &amp; Team Leadership</h3>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Government &amp; UN Liaison</span><span class="skill-pct">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Community &amp; Cross-sector Engagement</span><span class="skill-pct">93%</span></div><div class="bar-track"><div class="bar-fill" style="width:93%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Team Coordination &amp; Capacity Building</span><span class="skill-pct">91%</span></div><div class="bar-track"><div class="bar-fill" style="width:91%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-header"><span class="skill-name">Facilitation &amp; Training</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-category" style="margin-top:1rem;">
+        <h3>Core Competencies</h3>
+        <div class="skills-soft">
+          <div class="soft-chip">Systems Thinking</div>
+          <div class="soft-chip">Equity-Centred Practice</div>
+          <div class="soft-chip">EPHF Framework Application</div>
+          <div class="soft-chip">Good Clinical Practice (GCP)</div>
+          <div class="soft-chip">Disease Surveillance</div>
+          <div class="soft-chip">Health Financing Analysis</div>
+          <div class="soft-chip">Cultural Competency</div>
+          <div class="soft-chip">Adaptive Leadership</div>
+          <div class="soft-chip">Microsoft 365 Suite</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<div id="certifications" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Credentials</div>
+      <h2>Certifications &amp; <span class="gold">Professional Development</span></h2>
+      <div class="divider"></div>
+      <p style="max-width:620px;margin-bottom:3rem;">A commitment to continuous professional growth across project management, public health, data analytics, and community practice.</p>
+
+      <div class="cert-card" style="border-color:var(--gold);">
+        <div class="cert-badge">PMP</div>
+        <div class="cert-body">
+          <h3>Project Management Professional (PMP)</h3>
+          <div class="cert-issuer">Project Management Institute (PMI)</div>
+          <p>The globally recognised gold standard in project management. Demonstrates competency in leading projects using predictive and agile approaches, delivering outcomes within scope, schedule, and budget in complex, multi-stakeholder environments.</p>
+          <div class="cert-year">Certified · 2025 · Active PMI Member</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-badge" style="font-size:0.7rem;">Data<br>Analytics</div>
+        <div class="cert-body">
+          <h3>Google Data Analytics Certificate</h3>
+          <div class="cert-issuer">Google / Coursera</div>
+          <p>Comprehensive training in data collection, transformation, analysis, and visualisation. Covers tools including spreadsheets, SQL, Tableau, and R for data-driven decision making in professional settings.</p>
+          <div class="cert-year">Completed · 2025</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-badge" style="font-size:0.7rem;">PM<br>Global<br>Health</div>
+        <div class="cert-body">
+          <h3>Project Management in Global Health</h3>
+          <div class="cert-issuer">University of Washington</div>
+          <p>Specialised training in applying project management frameworks to global health programs, covering work planning, stakeholder management, performance monitoring, and adaptive management in resource-limited settings.</p>
+          <div class="cert-year">Completed · 2024</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-badge" style="font-size:0.65rem;">Policy<br>Analysis</div>
+        <div class="cert-body">
+          <h3>Framework for Analysing Public Policy</h3>
+          <div class="cert-issuer">Professional Development · 2025</div>
+          <p>Training in structured approaches for analysing, evaluating, and developing public policies, including stakeholder analysis, policy options assessment, and evidence-based recommendation development.</p>
+          <div class="cert-year">Completed · 2025</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-badge" style="font-size:0.65rem;">WHO<br>LQAS</div>
+        <div class="cert-body">
+          <h3>LQAS for Measles + Independent Monitor Training</h3>
+          <div class="cert-issuer">World Health Organization (WHO)</div>
+          <p>Specialised WHO field training in Lot Quality Assurance Sampling for measles immunisation coverage assessment, and Independent Monitor protocols for Supplemental Immunization Activity (SIA) rounds.</p>
+          <div class="cert-year">Certified · 2017 &amp; 2019</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-badge" style="font-size:0.65rem;">Brain<br>Story</div>
+        <div class="cert-body">
+          <h3>Brain Story Certification + Opioid Harm Reduction Champion</h3>
+          <div class="cert-issuer">Alberta Family Wellness Initiative · 2023–2025</div>
+          <p>Certifications in early brain development, trauma-informed practice, opioid harm reduction, and responding to opioid poisoning emergencies — directly supporting current community health and recovery program work in Alberta.</p>
+          <div class="cert-year">Completed · 2023–2025</div>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem;padding:2rem;border:1px solid var(--border);background:var(--navy-mid);">
+        <div class="section-label">Education</div>
+        <div class="grid-2" style="margin-top:1.5rem;gap:2rem;">
+          <div>
+            <h3 style="font-size:1.2rem;color:var(--white);margin-bottom:0.3rem;">Master of Public Health</h3>
+            <div style="color:var(--gold);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Health Policy &amp; Management · University of Ibadan · 2022</div>
+            <p style="font-size:0.85rem;">Specialisation in health systems, policy analysis, and program management in resource-limited settings.</p>
+          </div>
+          <div>
+            <h3 style="font-size:1.2rem;color:var(--white);margin-bottom:0.3rem;">Diploma — Human &amp; Community Support Social Services</h3>
+            <div style="color:var(--gold);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Cambrooks College, Calgary · 2024</div>
+            <p style="font-size:0.85rem;">Applied training in social services, case management, and community support in the Canadian context.</p>
+          </div>
+          <div>
+            <h3 style="font-size:1.2rem;color:var(--white);margin-bottom:0.3rem;">Bachelor of Science — Microbiology</h3>
+            <div style="color:var(--gold);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Olabisi Onabanjo University, Nigeria · 2009</div>
+            <p style="font-size:0.85rem;">Foundation in biological sciences, epidemiology, and laboratory practice.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <div class="section-label">Publication</div>
+        <div class="pub-card">
+          <h4>WHO O2CoV2 Study: Oxygen requirements and approaches to respiratory support in patients with COVID-19 in low- and middle-income countries</h4>
+          <p style="font-size:0.85rem;margin:0.6rem 0;">Published by the World Health Organization. Research led as Principal Investigator. Findings adopted into WHO governance frameworks for global emergency health preparedness.</p>
+          <a href="https://www.who.int/publications/i/item/9789240090002" target="_blank">who.int/publications/i/item/9789240090002 ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<div id="contact" class="page">
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div class="section-label">Let's Connect</div>
+          <h2>Open to <span class="gold">health PM roles</span> across Canada &amp; globally</h2>
+          <div class="divider"></div>
+          <p style="margin-bottom:2rem;">Whether you're building a global health team, designing a community health program, or looking for a rigorous M&amp;E specialist — I'd welcome the conversation.</p>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div><div class="contact-detail-label">Location</div><div class="contact-detail-val">Calgary, Alberta, Canada</div></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">✉️</div>
+            <div><div class="contact-detail-label">Email</div><div class="contact-detail-val">adejumobi.oluwabukola@gmail.com</div></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div><div class="contact-detail-label">Phone</div><div class="contact-detail-val">+1 587 284 5089</div></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">💼</div>
+            <div><div class="contact-detail-label">LinkedIn</div><div class="contact-detail-val">linkedin.com/in/oluwabukola-adejumobi</div></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-icon">🌍</div>
+            <div><div class="contact-detail-label">Availability</div><div class="contact-detail-val">Open to full-time, contract &amp; consulting · Eligible to work in Canada · Open to relocation</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="section-label" style="margin-bottom:1.5rem;">Send a Message</div>
+            <div class="contact-form">
+              <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" placeholder="Your name"></div>
+              <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com"></div>
+              <div class="form-group"><label class="form-label">Organisation</label><input class="form-input" type="text" placeholder="Your organisation"></div>
+              <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Tell me about your opportunity or collaboration idea..."></textarea></div>
+              <button class="btn btn-solid">Send Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <p>© 2025 <span>Adejumobi Oluwabukola Moyo, PMP · MPH</span> · Health Project Manager · Calgary, Canada</p>
+  </div>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('nav-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (id === 'skills') {
+      setTimeout(() => {
+        document.querySelectorAll('.bar-fill').forEach(bar => {
+          const w = bar.style.width; bar.style.width = '0';
+          setTimeout(() => { bar.style.width = w; }, 50);
+        });
+      }, 100);
+    }
+  }
+</script>
+</body>
+</html>
